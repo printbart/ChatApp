@@ -7,11 +7,7 @@
     android:background="@color/colorAccent"
     tools:context=".MainActivity"
     android:orientation="vertical">
-    <include
-        android:id="@+id/main_page_toolbar"
-        layout="@layout/app_bar_layout">
 
-    </include>
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
