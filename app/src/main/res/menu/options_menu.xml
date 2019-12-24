@@ -9,6 +9,12 @@
     </item>
 
     <item
+        android:title="Create Group"
+        android:id="@+id/main_create_group_option"
+        app:showAsAction="never">
+    </item>
+
+    <item
         android:title="Settings"
         android:id="@+id/main_settings_option"
         app:showAsAction="never">
@@ -19,5 +25,6 @@
         android:id="@+id/main_logout_option"
         app:showAsAction="never">
     </item>
+
 
 </menu>
