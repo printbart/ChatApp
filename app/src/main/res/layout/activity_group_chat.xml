@@ -49,7 +49,7 @@
 
         <EditText
             android:id="@+id/input_group_message"
-            android:layout_width="270dp"
+            android:layout_width="360dp"
             android:layout_height="wrap_content"
             android:hint="write your message ..."
             android:padding="17dp"/>
