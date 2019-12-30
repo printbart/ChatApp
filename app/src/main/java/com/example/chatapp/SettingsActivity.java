@@ -160,12 +160,12 @@ public class SettingsActivity extends AppCompatActivity {
             Toast.makeText(this, "Please write your status ...", Toast.LENGTH_SHORT).show();
         }
         else{
-            HashMap<String, String> profileMap = new HashMap<>();
+            HashMap<String, Object> profileMap = new HashMap<>();
             profileMap.put("uid", currentUserId);
             profileMap.put("name",setUserName);
             profileMap.put("status", setUserStatus);
 
-            RootRef.child("Users").child(currentUserId).setValue(profileMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            RootRef.child("Users").child(currentUserId).updateChildren(profileMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){
