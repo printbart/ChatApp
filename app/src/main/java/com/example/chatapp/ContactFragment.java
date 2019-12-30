@@ -85,7 +85,7 @@ public class ContactFragment extends Fragment {
                             Picasso.get().load(userImage).placeholder(R.drawable.profile_image).into(holder.profileImage);
                         }
                         else{
-                            String userImage = dataSnapshot.child("image").getValue().toString();
+                            //String userImage = dataSnapshot.child("image").getValue().toString();
                             String profileName = dataSnapshot.child("name").getValue().toString();
                             String profileStatus = dataSnapshot.child("status").getValue().toString();
 
