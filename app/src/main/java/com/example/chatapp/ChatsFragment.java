@@ -1,6 +1,7 @@
 package com.example.chatapp;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -73,15 +74,27 @@ public class ChatsFragment extends Fragment {
                 UsersRef.child(usersIDs).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.hasChild("image")){
-                            final String retImage = dataSnapshot.child("image").getValue().toString();
-                            Picasso.get().load(retImage).into(holder.profileImage);
-                        }
-                        final String retName = dataSnapshot.child("name").getValue().toString();
-                        final String retStatus = dataSnapshot.child("status").getValue().toString();
+                        if (dataSnapshot.exists()){
+                            if (dataSnapshot.hasChild("image")){
+                                final String retImage = dataSnapshot.child("image").getValue().toString();
+                                Picasso.get().load(retImage).into(holder.profileImage);
+                            }
+                            final String retName = dataSnapshot.child("name").getValue().toString();
+                            final String retStatus = dataSnapshot.child("status").getValue().toString();
 
-                        holder.userName.setText(retName);
-                        holder.userStatus.setText("Last Seen: " + "\n" + "Date "+ "Time");
+                            holder.userName.setText(retName);
+                            holder.userStatus.setText("Last Seen: " + "\n" + "Date "+ "Time");
+
+                            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent chatIntent = new Intent(getContext(), ChatActivity.class);
+                                    chatIntent.putExtra("visit_user_id", usersIDs);
+                                    chatIntent.putExtra("visit_user_name", retName);
+                                    startActivity(chatIntent);
+                                }
+                            });
+                        }
                     }
 
                     @Override
