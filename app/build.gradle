@@ -28,6 +28,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.2.1'
     implementation 'com.google.firebase:firebase-auth:17.0.0'
 
+    implementation 'com.google.firebase:firebase-messaging:17.3.3'
     implementation 'com.google.firebase:firebase-database:17.0.0'
     implementation 'com.google.firebase:firebase-storage:17.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
