@@ -12,6 +12,7 @@ import android.content.Context;
 import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -32,7 +33,9 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,13 +52,15 @@ public class ChatActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference RootRef;
 
-    private ImageButton SendMessageButton;
+    private ImageButton SendMessageButton, SendFilesButton;
     private EditText MessageInputText;
 
     private final List<Messages> messagesList = new ArrayList<>();
     private LinearLayoutManager linearLayoutManager;
     private MessageAdapter messageAdapter;
     private RecyclerView userMessagesList;
+
+    private String saveCurrentTime, saveCurrentDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +87,8 @@ public class ChatActivity extends AppCompatActivity {
                 SendMessage();
             }
         });
+
+        DisplayLastSeen();
     }
 
     private void InitializeControlers() {
@@ -101,6 +108,7 @@ public class ChatActivity extends AppCompatActivity {
         userLastSeen = (TextView) findViewById(R.id.custom_user_last_seen);
 
         SendMessageButton = (ImageButton) findViewById(R.id.send_message_btn);
+        SendFilesButton = (ImageButton) findViewById(R.id.send_files_btn);
         MessageInputText = (EditText) findViewById(R.id.input_message);
 
         messageAdapter = new MessageAdapter(messagesList);
@@ -108,16 +116,24 @@ public class ChatActivity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(this);
         userMessagesList.setLayoutManager(linearLayoutManager);
         userMessagesList.setAdapter(messageAdapter);
+
+        Calendar calendar = Calendar.getInstance();
+
+        SimpleDateFormat currentDate = new SimpleDateFormat("MMM dd, yyyy");
+        saveCurrentDate = currentDate.format(calendar.getTime());
+
+        SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm a");
+        saveCurrentTime = currentTime.format(calendar.getTime());
     }
 
     private void DisplayLastSeen(){
-        RootRef.child("Users").child(messageSenderID).addValueEventListener(new ValueEventListener() {
+        RootRef.child("Users").child(messageReceiverID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.child("userState").hasChild("state")){
                     String state = dataSnapshot.child("userState").child("state").getValue().toString();
-                    String date = dataSnapshot.child("date").child("state").getValue().toString();
-                    String time = dataSnapshot.child("time").child("state").getValue().toString();
+                    String date = dataSnapshot.child("userState").child("date").getValue().toString();
+                    String time = dataSnapshot.child("userState").child("time").getValue().toString();
 
                     if(state.equals("online")){
                         userLastSeen.setText("online");
@@ -194,6 +210,10 @@ public class ChatActivity extends AppCompatActivity {
             messageTextBody.put("message", messageText);
             messageTextBody.put("type", "text");
             messageTextBody.put("from", messageSenderID);
+            messageTextBody.put("to", messageReceiverID);
+            messageTextBody.put("messageID", messagePushID);
+            messageTextBody.put("time", saveCurrentTime);
+            messageTextBody.put("date", saveCurrentDate);
 
             Map messageBodyDetails = new HashMap();
             messageBodyDetails.put(messageSenderRef + "/" + messagePushID, messageTextBody);
