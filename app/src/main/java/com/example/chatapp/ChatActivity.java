@@ -216,6 +216,7 @@ public class ChatActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                         if (task.isSuccessful()){
                             Map messagePictureBody = new HashMap();
+                            //Need to fix this line, getMetadata().getReference.getDownloadUrl does not store correct data to firebase
                             messagePictureBody.put("message", task.getResult().getMetadata().getReference().getDownloadUrl().toString());
                             messagePictureBody.put("name", fileUri.getLastPathSegment());
                             messagePictureBody.put("type", checker);
