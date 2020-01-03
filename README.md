@@ -9,3 +9,7 @@ These instructions will get you a copy of the project up and running on your loc
 * [Android Studio](https://developer.android.com/studio) -  integrated development environment for Google's Android operating system
 
 * [Firebase](https://firebase.google.com/docs/android/setup) - realtime database and backend as a service.
+
+## Screenshots
+
+You can see screenshots of this application by click [here](https://github.com/printbart/ChatApp/tree/master/Screenshots) 
